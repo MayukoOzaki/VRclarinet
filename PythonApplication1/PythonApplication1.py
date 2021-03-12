@@ -3,15 +3,17 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tkinter import filedialog
 
-typ = [('すべてのファイル','*.*')] 
-dir = 'C:\\pg'
-fle = filedialog.askopenfilename(filetypes = typ, initialdir = dir) 
+import os
+
+typ = [('wav','*.wav'), ('すべてのファイル','*.*')] 
+dir = os.path.abspath(os.path.dirname(__file__))+'/../sound'
+fle = filedialog.askopenfilename(filetypes = typ, initialdir=dir) 
 
 #wavファイルの読み込みとnumpy化
 wave_file = wave.open(fle,"rb") 
 x = wave_file.readframes(wave_file.getnframes()) 
 x = np.frombuffer(x, dtype= "int16") #int16:16ビットの符号付整数
-x = x[::2]
+x = x[::2] # 一個おきに取ってくることでモノラルに（元はステレオ）
 
 #print(x[0])
 #print(len(x))
@@ -76,6 +78,7 @@ t = [ 0.1*i for i in range(len(smoothed_db)) ]
 
 plt.plot(t, smoothed_db, label='signal')
 plt.show()
+
 
 
 
