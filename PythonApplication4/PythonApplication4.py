@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 from tkinter import filedialog
 
+
+
 typ = [('すべてのファイル','*.*')] 
 dir = 'C:\\pg'
 fle = filedialog.askopenfilename(filetypes = typ, initialdir = dir) 
@@ -85,3 +87,27 @@ plt.show()
 #01:21～01:48
 #01:48～02:26
 #02:26～02:46
+
+
+#MiDI
+
+import pretty_midi
+
+
+typ = [('すべてのファイル','*.*')] 
+dir = 'C:\\pg'
+fle = filedialog.askopenfilename(filetypes = typ, initialdir = dir) 
+
+# MIDIファイルのロード
+midi_data = pretty_midi.PrettyMIDI(fle)
+# トラック別で取得
+midi_tracks = midi_data.instruments
+# トラック１のノートを取得
+notes = midi_tracks[0].notes
+for note in notes:
+    # ベロシティー、ノートナンバー、
+    # ノートオンタイム、ノートオフタイム
+    # の順でノート情報が渡される
+    print(note)
+
+
