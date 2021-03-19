@@ -5,9 +5,9 @@ from tkinter import filedialog
 
 
 
-typ = [('すべてのファイル','*.*')] 
-dir = 'C:\\pg'
-fle = filedialog.askopenfilename(filetypes = typ, initialdir = dir) 
+typ = [('wav','*.wav'), ('すべてのファイル','*.*')]
+dir = os.path.abspath(os.path.dirname(__file__))+'/../sound'
+fle = filedialog.askopenfilename(filetypes = typ, initialdir=dir)
 
 #wavファイルの読み込みとnumpy化
 wave_file = wave.open(fle,"rb") 
