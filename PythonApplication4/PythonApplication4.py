@@ -4,6 +4,7 @@ import matplotlib.pyplot as plt
 from tkinter import filedialog
 
 
+import os
 
 typ = [('wav','*.wav'), ('すべてのファイル','*.*')]
 dir = os.path.abspath(os.path.dirname(__file__))+'/../sound'
