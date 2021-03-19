@@ -5,13 +5,13 @@ from tkinter import filedialog
 
 import os
 
-typ = [('wav','*.wav'), ('すべてのファイル','*.*')] 
+typ = [('wav','*.wav'), ('すべてのファイル','*.*')]
 dir = os.path.abspath(os.path.dirname(__file__))+'/../sound'
-fle = filedialog.askopenfilename(filetypes = typ, initialdir=dir) 
+fle = filedialog.askopenfilename(filetypes = typ, initialdir=dir)
 
 #wavファイルの読み込みとnumpy化
 wave_file = wave.open(fle,"rb") 
-x = wave_file.readframes(wave_file.getnframes()) 
+x = wave_file.readframes(wave_file.getnframes())
 x = np.frombuffer(x, dtype= "int16") #int16:16ビットの符号付整数
 x = x[::2] # 一個おきに取ってくることでモノラルに（元はステレオ）
 
@@ -40,7 +40,7 @@ db = to_db(x[int(44100*0):int(44100*42)], N)      #2分
 #db = to_db(x[int(44100*146):int(44100*166)], N)　#4分、2分
 
 
-#1サンプル(1/44100)[s] 
+#1サンプル(1/44100)[s]
 #1024=0.02s　
 #1764=0.04s
 #2205=0.05s
@@ -51,7 +51,7 @@ db = to_db(x[int(44100*0):int(44100*42)], N)      #2分
 #https://masatsumu-dtm.com/word_36-sample_rate/
 
 sr = 44100
-t = np.arange(0, db.shape[0]/sr, 1/sr) 
+t = np.arange(0, db.shape[0]/sr, 1/sr)
 #等差数列　np.arange(初、終、差)
 #db.shape:dbの配列の形状を確認できる。
 
@@ -63,7 +63,7 @@ def smoothing(input, window):
     output = []
     for i in range(0, input.shape[0], window*2):
         if i < window:
-            output.append(np.average(input[:i+window+1])) 
+            output.append(np.average(input[:i+window+1]))
         elif i > input.shape[0] - 1 - window:
             output.append(np.average(input[i:]))
         else:
@@ -88,3 +88,25 @@ plt.show()
 #01:21～01:48
 #01:48～02:26
 #02:26～02:46
+
+
+#MiDI
+
+import pretty_midi
+
+
+typ = [('すべてのファイル','*.*')]
+dir = 'C:\\pg'
+fle = filedialog.askopenfilename(filetypes = typ, initialdir = dir)
+
+# MIDIファイルのロード
+midi_data = pretty_midi.PrettyMIDI(fle)
+# トラック別で取得
+midi_tracks = midi_data.instruments
+# トラック１のノートを取得
+notes = midi_tracks[0].notes
+for note in notes:
+    # ベロシティー、ノートナンバー、
+    # ノートオンタイム、ノートオフタイム
+    # の順でノート情報が渡される
+    print(note)
