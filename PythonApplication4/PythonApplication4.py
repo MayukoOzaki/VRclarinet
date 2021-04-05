@@ -16,15 +16,15 @@ import os
 #02:26～02:46
 
 # 仮想「息吹き込み検出関数」
-# スペースが押されていると、息の量 1.0 / 押されていないと 0.0 を返す
-def get_breath_speed(current_speed):
+# "b"(吹く)が押されていれば 1.0（息の量） / "s"（止める）が押されていれば 0.0（息の量） を返す　
+def get_breath_speed(current_speed): 
     breath_speed = current_speed
     if msvcrt.kbhit():
         ch = msvcrt.getch()
         print(ch)
-        if ch==b'b': #
+        if ch==b'b': 
             breath_speed=1.0
-        elif ch==b's': #
+        elif ch==b's': 
             breath_speed=0.0
         else:
             msvcrt.ungetch(ch) #push back
@@ -80,36 +80,22 @@ for note in notes:
 
 import time
 
-nextnote1 = 0 # 次の Note のインデックス(見本)
-nextnote2 = 0 # 次の Note のインデックス（演奏）
+nextnote1 = 0  # 次の Note のインデックス(見本)
+nextnote2 = 0  # 次の Note のインデックス（演奏）
 starttime = time.time()  #現在時刻
 t = 0
-out=1 #出力されたかどうか
-
-breath_old = 0 #直前に息が吹き込まれていたか
+out=1          # 出力されたかどうか
+breath_old = 0 # 直前に息が吹き込まれていたか
 
 while t < notes[-1].end  :
-    t = time.time() - starttime #演奏時間
+    t = time.time() - starttime # 演奏時間(現在時刻-演奏開始時刻)
 
-    # 今吹き込まれていて、直前が吹き込まれていなければ、次の音符を出し始め
-    # 直前が吹き込まれていて、今吹き込まれていなければ、音止める
     # キーが押されていたら次の音符を出す
-    breath_now = get_breath_speed(breath_old)
-    if breath_now > 0:
-        if breath_old == 0:
-            print(notes[nextnote2].pitch)
-            
-           
-    if breath_now == 0:
-        if breath_old >0:
-            print(0)
-            nextnote2+=1
+    if is_pressed == True:
+        print(notes[nextnote2].pitch)
+        nextnote2+=1
 
-
-    breath_old = breath_now
-
-
-#見本
+    # 見本
     if t>notes[nextnote1].start:
         if out==1:
             print(notes[nextnote1].pitch) #音を鳴らす
@@ -119,7 +105,27 @@ while t < notes[-1].end  :
         out=1
        
 
-#音の出方は息に合わせる
 
-# タイミングがずれた場合は
 
+
+
+
+"""今吹き込まれていて、直前が吹き込まれていなければ、次の音符を出し始め
+    # 直前が吹き込まれていて、今吹き込まれていなければ、音止める
+    # # キーが押されていたら次の音符を出す
+    breath_now = get_breath_speed(breath_old)
+    if breath_now > 0:
+        if breath_old == 0:
+            print(notes[nextnote2].pitch)
+        if breath_now == 0:
+        if breath_old >0:
+            print(0)
+            nextnote2+=1
+    breath_old = breath_now """
+
+
+"""
+やること
+・採点（区分求積法）
+・ブレスごと
+"""
