@@ -20,11 +20,11 @@ import time
 
 starttime = time.time()  #現在時刻
 t = time.time() - starttime # 演奏時間(現在時刻-演奏開始時刻)
+bre=[]
 for a in range(0,10):
     bre_ele=replylist[0(+a*5)-4:4+(5*a)] #5個ずつ取り出す0-4 5-9 10-14
     bre_ave=sum(bre_ele)/len(bre_ele) #平均をとる
-
-
+    bre.append(bre_ave)
 
 
 plt.plot(t, label='signal')
