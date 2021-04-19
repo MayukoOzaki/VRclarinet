@@ -15,6 +15,9 @@ print(reply.split("\r\n"))
 
 
 
+plt.plot(t, label='signal')
+plt.show()
+
         
 
     
