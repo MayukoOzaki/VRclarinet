@@ -3,18 +3,26 @@ import struct
 import matplotlib.pyplot as plt
 
 ser = serial.Serial("COM4",115200,timeout = 1.0)
-b_reply = ser.readline()
-#print(b_reply)
-#b_reply = ser.read_all()
-reply=b_reply.decode()
+reply = ser.readline()
+#print(reply)
+#print(type(reply)) byte
+reply=reply.decode()
+#print(type(reply)) str
 print(reply)
 ser.close()
 
-replyli=list(reply)
-print(replyli)
-
-
 import time
+
+plt.plot(t,reply,label="signal")
+plt.show()
+
+
+
+
+
+
+
+
 
 
 #bre_ave=sum(replyli)/len(replyli)
