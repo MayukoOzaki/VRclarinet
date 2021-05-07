@@ -15,7 +15,7 @@ import os
 #02:26～02:46
 
 
-low=850
+low=880
 def breath_detection(reply):
     is_blowing = False
     if reply<low:  #1000未満だったら吹いている
@@ -56,25 +56,20 @@ notes = midi_tracks[0].notes
 #    「次の次の音符」を「次の音符」にする
 # https://docs.python.org/ja/3/library/time.html
 
+
+#今吹き込まれていて、直前が吹き込まれていなければ、次の音符を出し始め
+# 直前が吹き込まれていて、今吹き込まれていなければ、音止める
+
 import time
+import serial
+import winsound
 
 nextnote1 = 0  # 次の Note のインデックス(見本)
 nextnote2 = 0  # 次の Note のインデックス（演奏）
 starttime = time.time()  #現在時刻
 t = 0
 out=1          # 出力されたかどうか
-#breath_old = 0 # 直前に息が吹き込まれていたか
-
-
-       
-
-
-#今吹き込まれていて、直前が吹き込まれていなければ、次の音符を出し始め
-# 直前が吹き込まれていて、今吹き込まれていなければ、音止める
-
-breath_old=False 
-
-import serial
+breath_old=False  # 直前に息が吹き込まれていたか
 
 ser = serial.Serial("COM4",115200,timeout = 1.0)
 
@@ -97,9 +92,15 @@ while True:
                 nextnote2+=1
             else:
                 break
-        print(nextnote2,notes[nextnote2].pitch)          
+        #print(nextnote2,notes[nextnote2].pitch)
+        m=notes[nextnote2].pitch
+        #print(m)
+        fm = (2**((m-69)/12))*440
+        #print(fm)
+        winsound.Beep(int(fm),500)  
+        
     elif breath_now == False and breath_old==True: #音を止めて次の音に切り替える
-        print(0)
+        #print(0)
         nextnote2+=1  
     breath_old = breath_now 
 
@@ -168,4 +169,5 @@ while t < notes[-1].end  :
     if t>notes[nextnote1].end:
         nextnote1+=1
         out=1
-        """
+   """
+
