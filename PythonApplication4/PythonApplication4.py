@@ -15,7 +15,7 @@ import os
 #02:26～02:46
 
 
-low=880
+low=900
 def breath_detection(reply):
     is_blowing = False
     if reply<low:  #1000未満だったら吹いている
@@ -31,7 +31,8 @@ import pretty_midi
 
 typ = [('mid','*.mid'), ('すべてのファイル','*.*')]
 dir = os.path.abspath(os.path.dirname(__file__))+'/../sound'
-fle = filedialog.askopenfilename(filetypes = typ, initialdir=dir)
+#fle = filedialog.askopenfilename(filetypes = typ, initialdir=dir)
+fle=dir+'/prediction03.mid'
 
 
 # MIDIファイルのロード
@@ -64,6 +65,9 @@ import time
 import serial
 import winsound
 
+import pygame
+import pygame.midi
+
 nextnote1 = 0  # 次の Note のインデックス(見本)
 nextnote2 = 0  # 次の Note のインデックス（演奏）
 starttime = time.time()  #現在時刻
@@ -73,6 +77,14 @@ breath_old=False  # 直前に息が吹き込まれていたか
 
 ser = serial.Serial("COM4",115200,timeout = 1.0)
 
+pygame.midi.init()
+player = pygame.midi.Output(0)
+player.set_instrument(72)
+ch1=1  #今のチャンネル
+ch2=0  #前のチャンネル
+ve1=0  #今のベロシティー
+ve2=50  #前のベロシティー
+sa=0
 while True:
     reply = ser.readline() #byte
     ser.reset_input_buffer()
@@ -82,6 +94,7 @@ while True:
     except:
         continue
 
+    print(reply)
     
     t = time.time() - starttime # 演奏時間(現在時刻-演奏開始時刻)
     breath_now =  breath_detection(reply)
@@ -93,16 +106,63 @@ while True:
             else:
                 break
         #print(nextnote2,notes[nextnote2].pitch)
-        m=notes[nextnote2].pitch
-        #print(m)
-        fm = (2**((m-69)/12))*440
-        #print(fm)
-        winsound.Beep(int(fm),500)  
+        pi=notes[nextnote2].pitch
+        print(pi)
+        ve1=1000-reply     
+        sa=ve1-ve2
+        zouka=sa*0.1
+        print("ve1",ve1,"sa",sa)
+        salist=[]
+        for a in range(10):
+            salist.append(int(sa+zouka))
+            sa=sa+zouka 
+        print(salist)
+        for b in salist:
+            print(b)
+            ve1=b
+            player.set_instrument(72,ch1%3)
+            print("start",ch1%3,ve1)
+            player.note_on(pi, ve1,ch1%3)
+            time.sleep(0.001)
+            print("stop",ch2%3,ve2)
+            player.note_off(pi,ve2,ch2%3)
+            time.sleep(0.01)
+            ch2=ch1
+            ch1+=1
+            ve2=ve1
+           
         
-    elif breath_now == False and breath_old==True: #音を止めて次の音に切り替える
-        #print(0)
-        nextnote2+=1  
+    elif breath_now == False and breath_old==True:#音を止めて次の音に切り替える
+        player.note_off(pi,ve2,ch2%3)
+        ve2=0
+        nextnote2+=1
+
+
+    elif breath_now == True and breath_old==True:
+        ve1=1000-reply     
+        sa=ve1-ve2
+        zouka=sa*0.1
+        salist=[]
+        for a in range(10):
+            salist.append(int(sa+zouka))
+            sa=sa+zouka
+        print(salist)
+        for b in salist:
+            print(b)
+            ve1=b
+            player.set_instrument(72,ch1%3)
+            print("start",ch1%3,ve1)
+            player.note_on(pi, ve1,ch1%3)
+            time.sleep(0.001)
+            print("stop",ch2%3,ve2)
+            player.note_off(pi,ve2,ch2%3)
+            time.sleep(0.01)
+            ch2=ch1
+            ch1+=1
+            ve2=ve1
     breath_old = breath_now 
+  
+
 
    #もし、ボタンで切替or息を吹き始めた際に、次の音の演奏時間内であるかを確認、範囲外(後)であれその次の音を確認する。
    #さらに過ぎていた場合これを繰り返す
@@ -170,4 +230,13 @@ while t < notes[-1].end  :
         nextnote1+=1
         out=1
    """
+"""m=notes[nextnote2].pitch
+   #print(m)
+   fm = (2**((m-69)/12))*440
+   #print(fm)
+   winsound.Beep(int(fm),500)"""
+
+
+
+
 
