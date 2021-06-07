@@ -15,7 +15,7 @@ import os
 #02:26～02:46
 
 
-low=900
+low=909
 def breath_detection(reply):
     is_blowing = False
     if reply<low:  #1000未満だったら吹いている
