@@ -14,7 +14,7 @@ fle = filedialog.askopenfilename(filetypes = typ, initialdir=dir)
 wave_file = wave.open(fle,"rb") 
 x = wave_file.readframes(wave_file.getnframes()) 
 x = np.frombuffer(x, dtype= "int16") #int16:16ビットの符号付整数
-x = x[::2]
+x = x[::2] #ステレオ
 
 #print(x[0])
 #print(len(x))
@@ -23,7 +23,7 @@ x = x[::2]
 def to_db(x, N):
     pad = np.zeros(N//2) #0で埋められた配列
     pad_data = np.concatenate([pad, x, pad])    #配列を結合
-    rms = np.array([np.sqrt((1/N) * (np.sum(pad_data[i:i+N]))**2) for i in range(0,len(x),N)]) #二乗平均平方根 Root Mean Square 実効値
+    rms = np.array([np.sqrt((1/N) * np.sum(np.square(pad_data[i:i+N]))) for i in range(0,len(x),N)]) #二乗平均平方根 Root Mean Square 実効値
     return 20 * np.log10(rms)
 
 N = 1024     #1024サンプル
@@ -62,7 +62,7 @@ t = np.arange(0, db.shape[0]/sr, 1/sr)
 
 def smoothing(input, window):
     output = []
-    for i in range(0, input.shape[0], window*2):
+    for i in range(0, input.shape[0], window*2+2):
         if i < window:
             output.append(np.average(input[:i+window+1])) 
         elif i > input.shape[0] - 1 - window:
@@ -72,13 +72,15 @@ def smoothing(input, window):
             # 対象データの前４個、後５個をとることで、全部で１０個
     return np.array(output)
 
+print(len(db))
 smoothed_db = smoothing(db, 4) #平均値 10 個
 
-print(smoothed_db)
+print(len(smoothed_db))
 
-t = [ 0.1*i for i in range(len(smoothed_db)) ]
+t = [ 0.233*i for i in range(len(smoothed_db)) ]
 
-
+print(max(smoothed_db))
+print(min(smoothed_db))
 plt.plot(t, smoothed_db, label='signal')
 plt.show()
 
