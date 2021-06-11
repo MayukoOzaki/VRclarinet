@@ -72,10 +72,9 @@ def smoothing(input, window):
             # 対象データの前４個、後５個をとることで、全部で１０個
     return np.array(output)
 
-print(len(db))
 smoothed_db = smoothing(db, 4) #平均値 10 個
 
-print(len(smoothed_db))
+#print(len(smoothed_db))
 
 t = [ 0.233*i for i in range(len(smoothed_db)) ]
 
