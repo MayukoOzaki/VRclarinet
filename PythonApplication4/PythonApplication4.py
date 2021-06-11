@@ -71,7 +71,8 @@ def smoothing(input, window):
             output.append(np.average(input[i-window:i+window+1]))
             # 対象データの前４個、後５個をとることで、全部で１０個
     return np.array(output)
-
+print(min(db))
+print(max(db))
 smoothed_db = smoothing(db, 4) #平均値 10 個
 
 #print(len(smoothed_db))
