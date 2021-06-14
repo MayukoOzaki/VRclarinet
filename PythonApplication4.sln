@@ -9,6 +9,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "B_machine", "..\..\..\Docum
 EndProject
 Project("{888888A0-9F3D-457C-B088-3A5042F75D52}") = "soundtest", "soundtest\soundtest.pyproj", "{AE74DA7B-E328-432B-98FC-191478A663AD}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "abcde", "..\..\..\Documents\Arduino\abcde\abcde.vcxproj", "{76D610D9-4FDA-44D6-B2D9-1E325A9D25C0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,12 @@ Global
 		{AE74DA7B-E328-432B-98FC-191478A663AD}.Debug|x86.ActiveCfg = Debug|Any CPU
 		{AE74DA7B-E328-432B-98FC-191478A663AD}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AE74DA7B-E328-432B-98FC-191478A663AD}.Release|x86.ActiveCfg = Release|Any CPU
+		{76D610D9-4FDA-44D6-B2D9-1E325A9D25C0}.Debug|Any CPU.ActiveCfg = Debug|Win32
+		{76D610D9-4FDA-44D6-B2D9-1E325A9D25C0}.Debug|x86.ActiveCfg = Debug|Win32
+		{76D610D9-4FDA-44D6-B2D9-1E325A9D25C0}.Debug|x86.Build.0 = Debug|Win32
+		{76D610D9-4FDA-44D6-B2D9-1E325A9D25C0}.Release|Any CPU.ActiveCfg = Release|Win32
+		{76D610D9-4FDA-44D6-B2D9-1E325A9D25C0}.Release|x86.ActiveCfg = Release|Win32
+		{76D610D9-4FDA-44D6-B2D9-1E325A9D25C0}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
