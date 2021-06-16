@@ -21,10 +21,10 @@ while True:
     except:
         continue 
    # print(reply)
-    if 909<x:
+    if 909<reply:
         reply=0
     else:
-        reply=(-34/39)*reply+23
+        reply=(-43/46)*reply
     reply_l.append(reply) #reply_lに追加
     if len(reply_l)==101: #reply_lが11以上だったら1番目を消す
         del reply_l[0]
