@@ -32,6 +32,14 @@ N = 1024     #1024サンプル
 #N = 3528     #3528サンプル
 #N = 4410     #4410サンプル
 
+y=np.abs(x[int(44100*0):int(44100*197)])
+print("個数",len(y))
+indexes = [i for i, x in enumerate(y) if x == 0]
+print(indexes) 
+print(len(indexes))
+#print(min(y))
+
+
 
 db = to_db(x[int(44100*0):int(44100*197)], N)      #2分
 #db = to_db(x[int(44100*47):int(44100*80)], N)　　#4分
@@ -71,16 +79,16 @@ def smoothing(input, window):
             output.append(np.average(input[i-window:i+window+1]))
             # 対象データの前４個、後５個をとることで、全部で１０個
     return np.array(output)
-print(min(db))
-print(max(db))
+#print(min(db))
+#print(max(db))
 smoothed_db = smoothing(db, 4) #平均値 10 個
 
 #print(len(smoothed_db))
 
 t = [ 0.233*i for i in range(len(smoothed_db)) ]
 
-print(max(smoothed_db))
-print(min(smoothed_db))
+#print(max(smoothed_db))
+#print(min(smoothed_db))
 plt.plot(t, smoothed_db, label='signal')
 plt.show()
 
