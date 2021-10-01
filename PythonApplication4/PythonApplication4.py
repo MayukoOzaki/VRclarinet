@@ -1,4 +1,4 @@
-import wave
+﻿import wave
 import numpy as np
 import matplotlib.pyplot as plt
 from tkinter import filedialog
@@ -75,10 +75,12 @@ t = 0
 out=1          # 出力されたかどうか
 breath_old=False  # 直前に息が吹き込まれていたか
 
-ser = serial.Serial("COM4",115200,timeout = 1.0)
+ser = serial.Serial("COM3",115200,timeout = 1.0)
 
 pygame.midi.init()
+print("a")
 player = pygame.midi.Output(0)
+print(player)
 player.set_instrument(72)
 ch1=1  #今のチャンネル
 ch2=0  #前のチャンネル
