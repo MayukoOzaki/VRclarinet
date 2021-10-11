@@ -110,21 +110,26 @@ while True:
         #print(nextnote2,notes[nextnote2].pitch)
         pi=notes[nextnote2].pitch
         print(pi)
-        ve1=1000-reply     
+        #ve1=1000-reply
+        ve1=1.97*(1000-reply)-160.62
+        if ve1>127:
+            ve1=127    
         sa=ve1-ve2
         zouka=sa*0.1
         print("ve1",ve1,"sa",sa)
         salist=[]
         for a in range(10):
-            salist.append(int(sa+zouka))
-            sa=sa+zouka 
+            salist.append(int(ve2+zouka))
+            #salist.append(int(sa+zouka))
+            ve2=int(ve2+zouka)
+            #sa=sa+zouka 
         print(salist)
         for b in salist:
             print(b)
             ve1=b
             player.set_instrument(72,ch1%3)
             print("start",ch1%3,ve1)
-            player.note_on(pi, ve1,ch1%3)
+            player.note_on(pi, ve1,ch1%3) 
             time.sleep(0.001)
             print("stop",ch2%3,ve2)
             player.note_off(pi,ve2,ch2%3)
@@ -146,8 +151,10 @@ while True:
         zouka=sa*0.1
         salist=[]
         for a in range(10):
-            salist.append(int(sa+zouka))
-            sa=sa+zouka
+            salist.append(int(ve2+zouka))
+            #salist.append(int(sa+zouka))
+            ve2=int(ve2+zouka)
+            #sa=sa+zouka
         print(salist)
         for b in salist:
             print(b)
