@@ -102,11 +102,13 @@ while True:
     breath_now =  breath_detection(reply)
     #print(breath_now,breath_old)
     if breath_now == True and breath_old==False: 
-        while t>notes[nextnote2].end:
-            if nextnote2<len(notes)-1: #notesの範囲の一つ手前であればnextnoteを増やす
-                nextnote2+=1
-            else:
-                break
+
+       # while t>notes[nextnote2].end:
+       #    if nextnote2<len(notes)-1: #notesの範囲の一つ手前であればnextnoteを増やす
+       #       nextnote2+=1
+       #  else:
+       #     break
+
         #print(nextnote2,notes[nextnote2].pitch)
         pi=notes[nextnote2].pitch
         print(pi)
